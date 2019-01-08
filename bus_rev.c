@@ -1,6 +1,16 @@
 #include<stdio.h>
 #include<conio.h>
-#include<windows.h>    /*Used for sleep function*/
+#include<stdlib.h>
+#include<windows.h>    /*Used for Sleep function*/
+
+//Declerations of functions used below.
+char buses();
+char book();
+char cancel();
+char about();
+char get_gender(int);
+int get_age(int);
+long long int get_number(int);
 
 ///Function to create new user
 int user_gen(){
@@ -15,8 +25,8 @@ int user_gen(){
 
 	FILE *f1;     ///New instance of file is created
 	int i;
-	f1=fopen("user_dat.dat","a");             ///opening the file 
-	if(f1==NULL){                             
+	f1=fopen("user_dat.dat","a");             ///opening the file
+	if(f1==NULL){
 		printf("file cannot be opened ");
 		getch();
 		exit(0);
@@ -35,7 +45,7 @@ int user_gen(){
 	system("cls");
 	fclose(f1);
 	///view_dat();                                                   ///function added for debugging purposes
-	
+
 	///getch();
 	return 0;
 }
@@ -50,7 +60,7 @@ int user_gen(){
 	};
 
 	struct user_info ui;
-	
+
 	if(f1==NULL){
 		printf("file cannot be opened ");
 		getch();
@@ -89,7 +99,7 @@ int user_log(){                                           ///function for userlo
 	fflush(stdin);
 	scanf("%s",&ch.passwd);
 	fflush(stdin);
-	
+
 	if(f1==NULL){
 		printf("file cannot be opened ");
 		getch();
@@ -98,32 +108,33 @@ int user_log(){                                           ///function for userlo
 	///just reading the user data and comparing it
 	while(fscanf(f1,"%s\n%lld%s",ui.name,&ui.ph_no,&ui.passwd)!=EOF){          ///warning do not remove \n from the middle of code
 		if((!strcmp(ch.name,ui.name))&&(ch.ph_no==ui.ph_no)&&(!strcmp(ch.passwd,ui.passwd))){
-			printf("Password correct");
-			sleep(3);
+			printf("Password correct...Loading...");
+			Sleep(30000);             //Sleep() is for windows not sleep() and time is in miliseconds
+			system("cls");
 			booking();
 		}
 	}
 	try_again2:
 	if(tries<=0){
 		printf("number of tries exceeded limit: Try again after sometime");    ///to limit number of tries user can enter wrong password
-		sleep(4);
+		Sleep(40000);
 		system("cls");
 		printf("\n******Visit Again!!******\n");
 		exit(0);
 	}
-	printf("invalid credentials\nEnter Y to try again or N to quit\n");   
+	printf("Invalid credentials.\nEnter 'Y' to try again or 'N' to quit.\n");
 	scanf("%c",&choice);
 	if(choice=='Y' || choice=='y'){
 		goto try_again;
 	}
 	else if(choice=='N' || choice=='n'){
 		printf("\nThanks for using our Bus Reservation System.\n\n******Visit Again!!******\n\n");
-        sleep(3);
+        Sleep(30000);
 		exit(0);
 	}
 	else{
 		printf("Wrong choice");
-		sleep(2);
+		Sleep(20000);
 		goto try_again2;
 	}
 	return 0;
@@ -132,319 +143,374 @@ int user_log(){                                           ///function for userlo
 
 
 int booking(){
-	int choice;
-    here:         /*Used for goto function to bring the control of program here*/
-    system("cls");
-	printf("Bus Reservation System.\n\nAvailable choices:\n");
-    printf("1 Buses available  Enter 1 to continue\n2 Book Ticket      Enter 2 to continue\n3 Cancel Ticket    Enetr 3 to continue\n4 Exit             Enetr 4 to continue\n");
-    printf("Enter your choice: ");
-    scanf("%d", &choice);
-    system("cls");          /*Clears the screen, clrscr() can only be used in turbo C (must include 'stdlib.h' header file)*/
-    switch(choice)
+	while(1)
+	{
+			int choice;
+			printf("Bus Reservation System.\n\nAvailable choices:\n");
+			printf("1. Buses available\n2. Book Ticket\n3. Cancel Ticket\n4. Exit\n\n");
+			printf("Enter your choice: ");
+			fflush(stdin);
+			scanf("%d", &choice);
+			system("cls");
+			switch(choice)
+			{
+					case 1:
+					{
+							buses();
+							break;
+					}
+					case 2:
+					{
+							book();
+							break;
+					}
+					case 3:
+					{
+							cancel();
+							break;
+					}
+					case 4:
+					{
+							printf("\nThanks for using our Bus Reservation System.\n\n******Visit Again!!******\n\n");
+							exit(0);
+							break;
+					}
+					default:
+					{
+							printf("\nInvalid input try again.\n\n");
+							booking();
+							break;
+					}
+			}
+	}
+return 0;
+}
+
+
+char buses()                    //info about case 1 (buses available)
+{
+    char back_1;
+    printf("\nBuses available:\n\n");
+    printf("1. Aditya Travels    (Shimla - Palampur)\n2. Asif Travels      (Shimla - Una)\n3. Sahil Travels     (Shimla - Hamirpur)\n4. Harshita Travels  (Shimla - Mandi)\n5. Vaishnav Travels  (Shimal - Manali)\n");
+    printf("\nWant to return to home page press 'H':");
+    scanf(" %c", &back_1);
+    if(back_1=='h' || back_1=='H')
     {
-        case 1:
-        {
-            char back_1;
-            start1:
-            printf("\nBuses available:\n\n");
-            printf("1. Aditya Travels   --(Shimla - Palampur)\n2. Asif Travels     --(Shimla - Una)\n3. Sahil Travels    --(Shimla - Hamirpur)\n4. Harshita Travels --(Shimla - Mandi)\n5. Vaishnav Travels --(Shimal - Manali)\n");
-            printf("\nWant to return to home page press y:");
-            scanf(" %c", &back_1);
-            if(back_1=='y' || back_1=='Y')
-            {
-                system("cls");
-                goto here;
-            }
-            else
-            {
-                system("cls");
-                printf("\nInvalid choice entered, Try Again.\n\n");
-                goto start1;
+        system("cls");
+        return 0;
+    }
+    else
+    {
+        system("cls");
+        printf("\nInvalid choice entered, Try Again.\n\n");
+        buses();
+    }
+}
 
-            }
-            break;
+char get_gender(int b)        //so gender can only be M of F*/
+{
+    char g;
+    int valid=0;
+    while(!valid)
+    {
+        printf("Gender of %d passenger(M/F): ", b+1);
+        scanf(" %c", &g);
+        if(g== 'M' || g== 'F' || g== 'm' || g=='f')
+        {
+            valid=1;
         }
-
-        case 2:
+        else
         {
-            FILE *info, *ticket;     /*Two files opened, info for saving details and ticket for saving ticket number*/
-            int number, pass, i, j, x, y, k, z=65, ticket_num;
-            char seat, back_2;
-            struct info
+            printf("\nInvalid input. Try again\n");
+        }
+    }
+    return g;
+}
+
+int get_age(int c)           //so that age is between 1 and 130
+{
+  int a;
+  int valid=0;
+  while(!valid)
+  {
+      printf("Age of %d passenger: ", c+1);
+      scanf("%d", &a);
+      if(a>= 1 && a<=130)  /*122 is the maximum age of a human being till now */
+      {
+          valid=1;
+      }
+      else
+      {
+          printf("\nInvalid input, age can'not be more than 130 and less than 1. Try again\n");
+      }
+  }
+  return a;
+}
+
+long long int get_number(int d)    //phone number of exact 10 digits
+{
+  long long int n, numm;
+  int valid=0, count=0;
+  while(!valid)
+  {
+      printf("Phone number of %d passenger: +91- ", d+1);
+      scanf("%lld", &n);
+      numm=n;
+      while(numm != 0)
+      {
+          numm /=10;
+          count++;
+      }
+      if(count==10)
+      {
+          valid=1;
+      }
+      else
+      {
+          printf("\nInvalid input, phone number should be of 10 digits. Try again\n");
+          count=0;
+      }
+  }
+  return n;
+}
+
+char book()           //code of case 2 (book ticket)
+{
+    FILE *info, *ticket;
+    int number, pass, i, j, x, y, k, z=65, ticket_num;
+    char seat, back_2;
+    struct info
+    {
+      char name[100];
+      char gender;
+      int age;
+      long long int p_num;
+    };
+    struct info detail[50];
+
+    info=fopen("E:\\information.txt", "w");
+    if(info==NULL)
+    {
+        system("cls");
+        printf("\nCan'not open the file.\n");
+        return 0;
+    }
+    else
+    {
+        printf("Ticket Booking\n\n");
+        printf("Enter Bus Number:");
+        scanf("%d", &number);
+        fprintf(info, "Bus Number =%d\n", number);
+
+        if(number >= 1 && number <= 5)
+        {
+            printf("\nEnter Number of passengers (<44) : ");
+            scanf("%d", &pass);
+            fprintf(info, "Number of Passengers =%d\n", pass);
+
+            if(pass<1 || pass>45)
             {
-                char name[100];
-                char gender[100];
-                int age; 
-				long long p_num;
-            };
-            struct info detail[50];
-
-           start2:
-            ///info=fopen("E:\\information.txt", "w");
-            info=fopen("information.txt", "a");
-            if(info==NULL)
-            {
-                system("cls");
-                printf("\nCan'not open the file.\n");
-                goto here;
-            }
-            else
-            {
-
-            printf("Ticket Booking\n\n");
-            printf("Enter Bus Number:");
-            scanf("%d", &number);
-            fflush(stdin);
-            fprintf(info, "Bus Number =%d\n", number);
-
-            if(number >= 1 && number <= 5)
-            {
-                printf("\nEnter Number of passengers (<44) : ");
-                scanf("%d", &pass);
-                fflush(stdin);
-
-                if(pass<1 || pass>45)
-                {
-                    printf("\nNumber of passengers should be between 1 and 44.\n");
-                    printf("\nTo return to home page press 'h'.\n\nTo return to starting of the Ticket Booking tab press 'r'.\n");
-                    printf("\nEnter your choice:");
-                    scanf(" %c", &back_2);
-                    fclose(info);
-
-                    if(back_2=='h' || back_2=='H')
-                    {
-                        system("cls");
-                        goto here;
-                    }
-
-                    else if(back_2=='r' || back_2=='R')
-                    {
-                        system("cls");
-                        goto start2;
-                    }
-
-                    else
-                    {
-                        system("cls");
-                        printf("\nInvalid Entry, Try again.\n\n");
-                        goto start2;
-                    }
-                }
-                else
-                {                	
-                    printf("\nEnter details of passengers:\n\n");
-                    fprintf(info, "Number of Passengers =%d\n", pass);
-                    fprintf(info, "\nDetails of passengers:\n\n");
-
-                    for(i=0; i<pass; i++)
-                    {
-                        fprintf(info, "Detail of %d passenger:\n", i+1);
-                        printf("Name of %d passenger: ", i+1);
-                        fflush(stdin);
-                        scanf("%s", &detail[i].name);
-                        fprintf(info, "Name =%s\n", detail[i].name);
-                        printf("Gender of %d passenger(M/F): ", i+1);
-                        fflush(stdin);
-                        scanf(" %c", &detail[i].gender);
-                        fprintf(info, "Gender =%s\n", detail[i].gender);
-                        printf("Age of %d passenger: ", i+1);
-                        fflush(stdin);
-                        scanf("%d", &detail[i].age);
-                        fprintf(info, "Age =%d\n", detail[i].age);
-                        printf("Phone number of %d passenger: ", i+1);
-                        fflush(stdin);
-                        scanf("%lld", &detail[i].p_num);
-                        fprintf(info, "Phone number =%lld\n", detail[i].p_num);
-                        printf("\n\n**************************\n\n");
-
-                    }
-                    printf("\nSelect your seat\n\n");
-
-                    for(x=1; x<=1; x++)
-                    {
-                        printf("\n");
-                        for(y=1; y<=10; y++)
-                        {
-                             printf(" %d\t", y);
-                        }
-                    }
-                    printf("\n");
-
-                    for(x=1; x<=3; x++,z++)
-                    {
-                        printf("\n");
-                        printf("%c ", z);
-
-                        for(y=1; y<=10; y++)
-                        {
-                            printf("- \t");
-                        }
-                    }
-                    z=68;
-                    printf("\n");
-
-                    for(x=1; x<=2; x++,z++)
-                    {
-                        printf("%c ", z);
-                        for(y=1; y<10; y++)
-                        {
-                            printf("\t");
-                        }
-                        printf("- \n\n");
-                    }
-
-                    z=70;
-                    for(x=1; x<=2; x++,z++)
-                    {
-                        printf("%c ", z);
-                        for(y=1; y<3; y++)
-                        {
-                            printf("\t");
-                        }
-                        for(k=1; k<=6; k++)
-                        {
-                            printf("- \t");
-                        }
-                        printf("\n\n");
-                    }
-
-                    printf("\n\nEnter seat number(example: 1A): ");
-                    fflush(stdin);
-                    scanf(" %c", &seat);
-                    printf("\n\nYour seat is confirmed!!\n\nThanks for using our Bus reservation system.\n");
-                    ///ticket=fopen("E:\\ticket_num.txt", "w");
-                    ticket=fopen("ticket_num.txt", "w");
-                    ticket_num=((number*pass)+66001);
-                    printf("\n******Your ticket number is: %d******\n", ticket_num);
-                    printf("\nRemember your ticket number in order to cancel the ticket.\n");
-                    printf("\n$$$$ You will be automatically redirected to home page in 10 seconds.$$$$");
-                    fprintf(ticket, "%d", ticket_num );
-                    fclose(ticket);
-                    fclose(info);
-                    sleep(10);
-                    fflush(stdin);
-
-                }
-            }
-
-            else
-            {
-                printf("Invalid bus number. Check the bus number from the 'Buses available' option on home page.\n");
+                printf("\nNumber of passengers should be between 1 and 44.\n");
                 printf("\nTo return to home page press 'h'.\n\nTo return to starting of the Ticket Booking tab press 'r'.\n");
                 printf("\nEnter your choice:");
-                fflush(stdin);
                 scanf(" %c", &back_2);
                 fclose(info);
 
                 if(back_2=='h' || back_2=='H')
                 {
                     system("cls");
-                    goto here;
+                    return 0;
                 }
 
                 else if(back_2=='r' || back_2=='R')
                 {
                     system("cls");
-                    goto start2;
+                    book();
                 }
 
                 else
                 {
                     system("cls");
                     printf("\nInvalid Entry, Try again.\n\n");
-                    goto start2;
+                    book();
                 }
             }
-          }
-          system("cls");
-          goto here;
-          break;
-        }
 
-        case 3:
-        {
-            char tick, back_3;
-            int num, sum=0, numb, n=10000;
-            start3:
-            printf("\nCancel Ticket.\n\n");
-            FILE *ticke;
-            ///ticke=fopen("E:\\ticket_num.txt", "r");
-            ticke=fopen("ticket_num.txt", "r");
-            if(ticke == NULL)
-            {
-                system("cls");
-                printf("\nFirst book a ticket.\n");
-                fclose(ticke);
-                goto here;
-
-            }
             else
             {
-                printf("\nEnter your ticket number:");
-                fflush(stdin);
-				scanf("%d", &num);
-                while(1)
-                {
-                    tick=fgetc(ticke);
-                    numb=atoi(&tick);
-                    sum=sum+(numb*n);
-                    n=n/10;
+                printf("\nEnter details of passengers:\n\n");
+                fprintf(info, "\nDetails of passengers:\n\n");
 
-                    if(tick==EOF)
+                for(i=0; i<pass; i++)
+                {
+                    fprintf(info, "Detail of %d passenger:\n", i+1);
+                    printf("Name of %d passenger: ", i+1);
+                    scanf("%s", &detail[i].name);
+                    fprintf(info, "Name =%s\n", detail[i].name);
+                    detail[i].gender=get_gender(i);
+                    fprintf(info, "Gender =%c\n", detail[i].gender);
+                    detail[i].age=get_age(i);
+                    fprintf(info, "Age =%d\n", detail[i].age);
+                    detail[i].p_num=get_number(i);
+                    fprintf(info, "Phone number =%lld\n", detail[i].p_num);
+                    printf("\n\n**************************\n\n");
+                }
+
+                printf("\nSelect your seat\n\n");
+                for(x=1; x<=1; x++)
+                {
+                    printf("\n");
+                    for(y=1; y<=10; y++)
                     {
-                        break;
+                         printf(" %d\t", y);
                     }
                 }
-                fclose(ticke);
-                if(sum == num)
+
+                printf("\n");
+                for(x=1; x<=3; x++,z++)
                 {
-                    printf("\n***Your ticket having number %d is being cancelled.***\n", num);
-                    printf("\n*To return to home page press 'H'.\n\n*To cancel other ticket press 'R'.\n");
-                    printf("\nEnter your choice:");
-                    fflush(stdin);
-                    scanf(" %c", &back_3);
+                    printf("\n");
+                    printf("%c ", z);
 
-                    if(back_3=='h' || back_3=='H')
+                    for(y=1; y<=10; y++)
                     {
-                        system("cls");
-                        goto here;
-                    }
-
-                    else if(back_3=='r' || back_3=='R')
-                    {
-                        system("cls");
-                        goto start3;
-                    }
-
-                    else
-                    {
-                        system("cls");
-                        goto here;
+                        printf("- \t");
                     }
                 }
-                else
+
+                z=68;
+                printf("\n");
+                for(x=1; x<=2; x++,z++)
                 {
-                    system("cls");
-                    printf("Invalid ticket number, try again.\n");
-                    goto start3;
+                    printf("%c ", z);
+                    for(y=1; y<10; y++)
+                    {
+                        printf("\t");
+                    }
+                    printf("- \n\n");
                 }
+
+                z=70;
+                for(x=1; x<=2; x++,z++)
+                {
+                    printf("%c ", z);
+                    for(y=1; y<3; y++)
+                    {
+                        printf("\t");
+                    }
+                    for(k=1; k<=6; k++)
+                    {
+                        printf("- \t");
+                    }
+                    printf("\n\n");
+                }
+
+                printf("\n\nEnter seat number(example: 1A): ");
+                scanf(" %c", &seat);
+                printf("\n\nYour seat is confirmed!!\n\nThanks for using our Bus reservation system.\n");
+                ticket=fopen("E:\\ticket_num.txt", "w");
+                ticket_num=((number*pass)+66001);
+                printf("\n******Your ticket number is: %d******\n", ticket_num);
+                printf("\nRemember your ticket number in order to cancel the ticket.\n");
+                fprintf(ticket, "%d", ticket_num );
+                printf("\n$$$$ You will be automatically redirected to home page in 10 seconds.$$$$");
+                fclose(info);
+                fclose(ticket);
+                Sleep(10000);
+                system("cls");
+                return 0;
             }
-            break;
-      		}
+        }
 
-	    case 4:
-	    {
-	        printf("\nThanks for using our Bus Reservation System.\n\n******Visit Again!!******\n\n");
-	        exit(0);
-	        break;
-	    }
+        else
+        {
+            printf("Invalid bus number. Check the bus number from the 'Buses available' option on home page.\n");
+            printf("\nTo return to home page press 'h'.\n\nTo return to starting of the Ticket Booking tab press 'r'.\n");
+            printf("\nEnter your choice:");
 
+            scanf(" %c", &back_2);
+            fclose(info);
+
+            if(back_2=='h' || back_2=='H')
+            {
+                system("cls");
+                return 0;
+            }
+
+            else if(back_2=='r' || back_2=='R')
+            {
+                system("cls");
+                book();
+            }
+
+            else
+            {
+                system("cls");
+                printf("\nInvalid Entry, Try again.\n\n");
+                book();
+            }
+        }
     }
-	getch();
-	return 0;
 }
 
+char cancel()           // code of case 3 (cancela ticket)
+{
+    char tick, back_3;
+    int num, sum=0, numb, n=10000;
+    printf("\nCancel Ticket.\n\n");
+    FILE *ticke;
+    ticke=fopen("E:\\ticket_num.txt", "r");
+    if(ticke == NULL)
+    {
+        system("cls");
+        printf("\nFirst book a ticket.\n");
+        fclose(ticke);
+        return 0;
+    }
+    else
+    {
+        printf("\nEnter your ticket number:");
+        scanf("%d", &num);
+        while(1)
+        {
+            tick=fgetc(ticke);
+            numb=atoi(&tick);
+            sum=sum+(numb*n);
+            n=n/10;
 
+            if(tick==EOF)
+            {
+                break;
+            }
+        }
+        fclose(ticke);
+        if(sum == num)
+        {
+            printf("\n***Your ticket having number %d is being cancelled.***\n", num);
+            printf("\n*To return to home page press, press any alphabet.\n\n*To cancel other ticket press 'R'.\n");
+            printf("\nEnter your choice:");
+            scanf(" %c", &back_3);
+
+            if(back_3=='r' || back_3=='R')
+            {
+                system("cls");
+                cancel();
+            }
+
+            else
+            {
+                system("cls");
+                return 0;
+            }
+        }
+        else
+        {
+            system("cls");
+            printf("Invalid ticket number, try again.\n");
+            cancel();
+        }
+    }
+}
 
 int main(){
 	int a=0,b=1,d;
@@ -464,7 +530,7 @@ int main(){
 				b=0;
 				break;
 			default:
-				printf("Wrong choice Enter agian\n");
+				printf("Wrong choice, enter again\n");
 				getch();
 				system("cls");               ///for clear screen as clrscr not working
 				printf("------User login------\n1 New User         enter 1 to cotinue\n2 Existing user    enter 2 to continue\n=>");
@@ -484,11 +550,11 @@ int main(){
 	          }
 			case 4:
 				printf("\nThanks for using our Bus Reservation System.\n\n******Visit Again!!******\n\n");
-        		sleep(1);
+        		Sleep(10000);
 				exit(0);
-							
+
 		}
 	}
-	
+
 	return 0;
 }
