@@ -109,7 +109,7 @@ int user_log(){                                           ///function for userlo
 	while(fscanf(f1,"%s\n%lld%s",ui.name,&ui.ph_no,&ui.passwd)!=EOF){          ///warning do not remove \n from the middle of code
 		if((!strcmp(ch.name,ui.name))&&(ch.ph_no==ui.ph_no)&&(!strcmp(ch.passwd,ui.passwd))){
 			printf("Password correct...Loading...");
-			Sleep(30000);             //Sleep() is for windows not sleep() and time is in miliseconds
+			Sleep(3000);             //Sleep() is for windows not sleep() and time is in miliseconds
 			system("cls");
 			booking();
 		}
@@ -117,7 +117,7 @@ int user_log(){                                           ///function for userlo
 	try_again2:
 	if(tries<=0){
 		printf("number of tries exceeded limit: Try again after sometime");    ///to limit number of tries user can enter wrong password
-		Sleep(40000);
+		Sleep(4000);
 		system("cls");
 		printf("\n******Visit Again!!******\n");
 		exit(0);
@@ -129,12 +129,12 @@ int user_log(){                                           ///function for userlo
 	}
 	else if(choice=='N' || choice=='n'){
 		printf("\nThanks for using our Bus Reservation System.\n\n******Visit Again!!******\n\n");
-        Sleep(30000);
+        Sleep(3000);
 		exit(0);
 	}
 	else{
 		printf("Wrong choice");
-		Sleep(20000);
+		Sleep(2000);
 		goto try_again2;
 	}
 	return 0;
@@ -550,7 +550,7 @@ int main(){
 	          }
 			case 4:
 				printf("\nThanks for using our Bus Reservation System.\n\n******Visit Again!!******\n\n");
-        		Sleep(10000);
+        		Sleep(1000);
 				exit(0);
 
 		}
